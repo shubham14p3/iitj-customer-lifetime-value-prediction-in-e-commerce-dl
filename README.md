@@ -25,8 +25,8 @@ A deep learning model implemented in PyTorch for predicting customer lifetime va
 ---
 
 ## Live Project Links
-- **UI:** [http://13.49.213.141:5173/login/](http://13.49.213.141:5173/)
-- **Backend:** [http://13.49.213.141:5000/](http://13.49.213.141:5000/)
+- **UI:** [http://13.50.9.79:5173/login/](http://13.50.9.79:5173/)
+- **Backend:** [http://13.50.9.79:5000/](http://13.50.9.79:5000/)
 
 User Name : **admin** || Password: **admin**  (Default)
 ---
@@ -59,6 +59,7 @@ User Name : **admin** || Password: **admin**  (Default)
 # Install requirements
 python -m pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
+pip install flask-cors
 
 ## Dependencies
 
