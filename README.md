@@ -463,6 +463,10 @@ When uploading data for prediction, ensure your CSV file contains the required f
 - Add hyperparameter tuning utilities
 - Support for time-series CLV prediction
 - Integration with production deployment tools
+- Integration and support to diffent modals, Csv files, 
+- Direct text file uploads / Paste
+- Click on modal giving more insights
+- More dynamic view 
 
 ## Authors
 
@@ -481,6 +485,75 @@ When uploading data for prediction, ensure your CSV file contains the required f
 
 
 ## Contributions
+
+### 🧑‍🤝‍🧑 Team Members and Key Responsibilities
+#### 1. Bhavesh Arora (30%)
+Model Architecture, Training Pipeline & Evaluation Framework
+
+- Designed and optimized the deep learning model architecture using PyTorch, defining key hyperparameters, activation layers, and network depth.
+
+- Developed the end-to-end training pipeline, including data loaders, optimizer configuration, loss computation, and checkpoint saving.
+
+- Conducted hyperparameter tuning using grid/random search to achieve optimal performance.
+
+- Implemented a robust evaluation framework with metrics like RMSE, MAPE, and accuracy to monitor model performance.
+
+- Created visual analytics for model learning curves and validation trends using Matplotlib and TensorBoard.
+
+- Collaborated with deployment and data teams to ensure seamless model integration and reproducibility.
+
+#### 2. Kanishka Dhindhwal (25%)
+Data Preprocessing, Feature Engineering & Dataset Management
+
+- Handled the data ingestion and cleaning process, resolving inconsistencies and missing values in raw datasets.
+
+- Performed feature engineering — normalization, encoding, scaling, and domain-specific transformations for better learning outcomes.
+
+- Designed modular data pipelines for preprocessing and augmentation, compatible with PyTorch’s DataLoader.
+
+- Conducted exploratory data analysis (EDA) to uncover trends, outliers, and correlations.
+
+- Managed dataset versioning and ensured reproducibility for training, validation, and testing sets.
+
+- Worked closely with model and deployment teams to validate data formats and schema consistency.
+
+#### 3. Shubham Raj (25%)
+Full-Stack Integration, Model Deployment, React Frontend & Hosting
+
+- Led the end-to-end integration between the FastAPI (Python backend) and React (frontend) for a seamless user experience.
+
+- Developed the frontend interface in React, enabling users to upload files, trigger model inference, and visualize predictions dynamically.
+
+- Implemented RESTful APIs for communication between the client and the backend PyTorch inference engine.
+
+- Built the inference pipeline for real-time prediction — including model loading, error handling, and response formatting.
+
+- Deployed the complete system on cloud infrastructure (AWS / Render / cPanel), handling both server and client deployment.
+
+- Optimized frontend performance, handled build bundling, routing, and secure CORS configuration.
+
+- Performed system-level validation, logging, and performance benchmarking across the full stack to ensure reliability.
+
+- Managed DevOps tasks including environment setup, dependency configuration, and version control (Git/GitHub).
+
+#### 4. Jatin (20%)
+Backend Enhancement, API Design, Documentation & Reporting
+
+- Assisted in developing FastAPI backend modules, focusing on endpoint structuring, request handling, and response optimization.
+
+- Implemented data serialization and validation layers for smooth file handling and API communication.
+
+- Contributed to API testing and debugging, ensuring consistent responses between model inference and frontend requests.
+
+- Enhanced backend efficiency by modularizing code, improving readability, and adding exception-handling mechanisms.
+
+- Wrote detailed technical documentation covering setup, API usage, and deployment workflows.
+
+- Created system architecture diagrams illustrating interactions among React, FastAPI, and PyTorch components.
+
+- Led final report compilation, project summary writing, and presentation content preparation.
+
+- Ensured that the entire codebase adhered to software engineering best practices, including code comments, version control, and reproducible builds.
 
 Feel free to contribute by creating pull requests or submitting issues. Suggestions for improving data processing methods, adding more visualizations, or optimizing the application are welcome.
 
