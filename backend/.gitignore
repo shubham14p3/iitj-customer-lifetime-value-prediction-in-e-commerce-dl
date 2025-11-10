@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Model files (keep saved_model.pth, ignore others)
+models/*.pth
+!models/saved_model.pth
+
+# Data files (keep structure, ignore large CSVs)
+data/*.csv
+!data/__init__.py
+!data/data_loader.py
+
+# Temporary files
+uploads/
+*.log
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Flask uploads and temporary files
+uploads/
+*.log
+*.tmp
+
+# Test files
+test_*.py
+*_test.py
+
+# Submission files
+group_*.zip
+submission_temp/

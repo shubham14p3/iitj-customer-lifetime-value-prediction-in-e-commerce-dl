@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Lifetime Value (CLV) Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Customer Lifetime Value Prediction</h1>
+            <p class="subtitle">Deep Learning Model for E-commerce CLV Prediction</p>
+        </header>
+
+        <!-- Model Status Section -->
+        <section class="card" id="model-status">
+            <h2>Model Status</h2>
+            <div class="status-container">
+                <div class="status-indicator" id="status-indicator">
+                    <span class="status-dot" id="status-dot"></span>
+                    <span id="status-text">Model not loaded</span>
+                </div>
+                <button class="btn btn-primary" onclick="loadModelModal()">Load Model</button>
+            </div>
+            <div id="model-info" class="model-info" style="display: none;">
+                <h3>Model Information</h3>
+                <div id="model-details"></div>
+            </div>
+        </section>
+
+        <!-- Prediction Section -->
+        <section class="card" id="prediction-section">
+            <h2>Make Predictions</h2>
+            <div class="upload-container">
+                <form id="predict-form" enctype="multipart/form-data">
+                    <div class="file-upload">
+                        <label for="data-file" class="file-label">
+                            <span class="file-icon">📁</span>
+                            <span id="file-name">Choose CSV file...</span>
+                            <input type="file" id="data-file" name="data_file" accept=".csv" required>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-success" id="predict-btn" disabled>
+                        <span class="btn-text">Predict CLV</span>
+                        <span class="btn-loader" style="display: none;">⏳ Processing...</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="card" id="results-section" style="display: none;">
+            <h2>Prediction Results</h2>
+            
+            <!-- Summary Statistics -->
+            <div id="summary-stats" class="stats-grid"></div>
+            
+            <!-- Metrics (if target available) -->
+            <div id="metrics-container" style="display: none;">
+                <h3>Model Performance Metrics</h3>
+                <div id="metrics-grid" class="metrics-grid"></div>
+            </div>
+            
+            <!-- Visualization -->
+            <div id="plot-container" class="plot-container">
+                <h3>Visualization</h3>
+                <div id="plot-image"></div>
+            </div>
+            
+            <!-- Predictions Table -->
+            <div id="predictions-container">
+                <h3>Sample Predictions (First 100 rows)</h3>
+                <div class="table-container">
+                    <table id="predictions-table" class="data-table">
+                        <thead id="table-head"></thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+                <div class="table-footer">
+                    <span id="table-info"></span>
+                    <button class="btn btn-secondary" id="download-btn" onclick="downloadResults()">
+                        📥 Download Full Results
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Load Model Modal -->
+    <div id="model-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModelModal()">&times;</span>
+            <h2>Load Model</h2>
+            <form id="load-model-form" enctype="multipart/form-data">
+                <div class="file-upload">
+                    <label for="model-file" class="file-label">
+                        <span class="file-icon">🤖</span>
+                        <span id="model-file-name">Choose model file (.pth)...</span>
+                        <input type="file" id="model-file" name="model_file" accept=".pth">
+                    </label>
+                    <p class="help-text">Leave empty to use default model (models/saved_model.pth)</p>
+                </div>
+                <button type="submit" class="btn btn-primary">Load Model</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
+
