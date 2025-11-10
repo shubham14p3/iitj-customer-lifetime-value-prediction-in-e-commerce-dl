@@ -33,13 +33,21 @@ User Name : **admin** || Password: **admin**  (Default)
 
 ## Setup Instructions
 
+### Github Link : 
+```
+https://github.com/shubham14p3/iitj-customer-lifetime-value-prediction-in-e-commerce-dl
+```
+Clone the project and do the below steps 
+
 ### Backend Setup
 
 #### Step 1: Create and Activate Python Virtual Environment
 
 1. **Create a Virtual Environment**:
     ```bash
-    python3.10 -m venv veenv
+    python3.10 -m venv venv
+    or 
+    python -m venv venv
     ```
 
 2. **Activate Virtual Environment**:
@@ -56,9 +64,8 @@ User Name : **admin** || Password: **admin**  (Default)
      source venv/Scripts/activate
      ```
 
-# Install requirements
-python -m pip install --upgrade pip setuptools wheel
-pip install -r requirements.txt
+# Install requirements 
+pip install -r requirements.txt  (Only for Python 3.10)
 pip install flask-cors
 
 ## Dependencies
@@ -117,6 +124,16 @@ After installing dependencies, verify your setup:
 npm run start
 ```
 
+### Project Flow
+![Login](assets/1.JPG)
+![Sucess Login](assets/2.JPG)
+![Step 1](assets/3.JPG)
+![Step 2](assets/4.JPG)
+![Step 3](assets/5.JPG)
+![Step 3](assets/6.JPG)
+![API CALLS](assets/7.JPG)
+![AWS](assets/8.JPG)
+
 ## Dataset
 
 ### Olist Brazilian E-commerce Dataset
@@ -138,9 +155,8 @@ This creates synthetic CLV features based on customer location data. The process
 For accurate CLV predictions, download the complete Olist dataset:
 
 1. **Download from Kaggle:**
-   - URL: https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce
-   - Create a Kaggle account if needed
-   - Download the dataset
+   - Sample Data is present in Step-2 under "Downlaod Sample Data"
+   If not "https://limewire.com/d/HBnSV#hKLYEfB3d2" use this for CSV
 
 2. **Required Files:**
    - `olist_customers_dataset.csv` (customer information)
@@ -454,6 +470,13 @@ When uploading data for prediction, ensure your CSV file contains the required f
 - GitHub: [@ShubhamRaj](https://github.com/shubham14p3)  
 - LinkedIn: [Shubham Raj](https://www.linkedin.com/in/shubham14p3/)
 
+
+
+👤 **Bhavesh Arora**  
+
+👤 **Kanishka Dhindhwal**  
+
+👤 **Jatin Shrivas**  
 ---
 
 

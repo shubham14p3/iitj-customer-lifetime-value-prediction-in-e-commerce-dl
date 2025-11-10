@@ -16,7 +16,7 @@ import matplotlib
 matplotlib.use('Agg')  # Non-interactive backend
 import matplotlib.pyplot as plt
 from datetime import datetime
-from flask_cors import CORS  # ✅ Added for React access
+from flask_cors import CORS  
 
 # -------------------------------------------------------------------
 # Path setup
@@ -36,7 +36,7 @@ CORS(app, resources={r"/*": {"origins": [
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "http://13.49.213.141:5173"
+    "http://13.50.9.79:5173"
 ]}})
 
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -173,12 +173,17 @@ def load_model_route():
         success, message = load_model_from_checkpoint(model_path, device)
         if success:
             processor = CLVDataProcessor()
-            train_path = next((p for p in ['data/clv_features.csv', 'data/clv_features_sample.csv']
-                               if os.path.exists(p)), None)
-            if train_path:
-                df = pd.read_csv(train_path)
-                processor.preprocess_data(df)
-                print(f"Processor fitted with {len(processor.feature_names)} features")
+            # Always fit processor on main training data
+            training_data_paths = ['data/clv_features.csv', 'data/clv_features_sample.csv']
+            for path in training_data_paths:
+                if os.path.exists(path):
+                    train_df = pd.read_csv(path)
+                    processor.preprocess_data(train_df)
+                    print(f"✓ Processor fitted on training data ({path}) with {len(processor.feature_names)} features")
+                    break
+            else:
+                print("⚠ Warning: No training data found to fit processor.")
+
             return jsonify({'success': True, 'message': message, 'device': device})
         else:
             return jsonify({'success': False, 'message': message})
@@ -205,17 +210,22 @@ def predict():
         if processor is None:
             processor = CLVDataProcessor()
 
+        # Ensure processor is fitted
         if not hasattr(processor, 'feature_names') or processor.feature_names is None:
-            train_path = next((p for p in ['data/clv_features.csv', 'data/clv_features_sample.csv']
-                               if os.path.exists(p)), None)
-            if train_path:
-                df_train = pd.read_csv(train_path)
-                processor.preprocess_data(df_train)
+            training_data_paths = ['data/clv_features.csv', 'data/clv_features_sample.csv']
+            for path in training_data_paths:
+                if os.path.exists(path):
+                    train_df = pd.read_csv(path)
+                    processor.preprocess_data(train_df)
+                    print(f"✓ Processor fitted on training data ({path})")
+                    break
             else:
                 return jsonify({'success': False, 'message': 'Training data not found'})
 
+        # Transform uploaded data
         features, targets, feature_names = processor.transform_data(df, require_target=False)
 
+        # Make predictions
         features_tensor = torch.FloatTensor(features).to(device)
         with torch.no_grad():
             predictions = model(features_tensor).cpu().numpy().flatten()
@@ -223,23 +233,46 @@ def predict():
         results_df = df.copy()
         results_df['predicted_clv'] = predictions
 
+        # ✅ Initialize metrics before conditional
+        metrics = None
+
+        # If actual CLV values exist, compute metrics correctly
         if has_target:
             from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-            mse = mean_squared_error(df['clv'], predictions)
+
+            # Ensure consistent scaling for targets
+            if hasattr(processor, 'target_scaler'):
+                try:
+                    y_true = processor.inverse_transform_target(df['clv'])
+                except Exception:
+                    y_true = df['clv'].values
+            else:
+                y_true = df['clv'].values
+
+            mse = mean_squared_error(y_true, predictions)
             rmse = np.sqrt(mse)
-            mae = mean_absolute_error(df['clv'], predictions)
-            r2 = r2_score(df['clv'], predictions)
-            mape = np.mean(np.abs((df['clv'] - predictions) / (df['clv'] + 1e-8))) * 100
-            metrics = {'MSE': mse, 'RMSE': rmse, 'MAE': mae, 'R2': r2, 'MAPE': mape}
-            plot_base64 = create_prediction_plot(predictions, df['clv'])
+            mae = mean_absolute_error(y_true, predictions)
+            r2 = r2_score(y_true, predictions)
+            mape = np.mean(np.abs((y_true - predictions) / (y_true + 1e-8))) * 100
+
+            metrics = {
+                'MSE': round(mse, 4),
+                'RMSE': round(rmse, 4),
+                'MAE': round(mae, 4),
+                'R2': round(r2, 4),
+                'MAPE': round(mape, 2)
+            }
+
+            plot_base64 = create_prediction_plot(predictions, y_true)
         else:
-            metrics = None
             plot_base64 = create_prediction_plot(predictions)
 
+        # Save results file
         filename = f"predictions_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
         save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         results_df.to_csv(save_path, index=False)
 
+        # Summary statistics
         summary = {
             'total_customers': len(results_df),
             'mean_predicted_clv': float(np.mean(predictions)),
